@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import App from './App'
 import CadastroUsuario from './Paginas/CadastroUsuarios'
+import UsuariosCadastrados from './Paginas/UsuariosCadastrados'
 
 
 
@@ -10,6 +11,7 @@ export function ExportaRouter() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/form" element={<CadastroUsuario />} />
+        <Route path="/dados" element={<UsuariosCadastrados />} />
 
 
 

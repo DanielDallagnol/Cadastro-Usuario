@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, TextField } from "@mui/material";
 
 export default function FormPageFunction() {
@@ -7,6 +7,14 @@ export default function FormPageFunction() {
         name: "",
         email: "",
     });
+
+    // Carrega dados do localStorage ao iniciar
+    useEffect(() => {
+        const dadosSalvos = localStorage.getItem("usuarios");
+        if (dadosSalvos) {
+            setDados(JSON.parse(dadosSalvos));
+        }
+    }, []);
 
     const adicionarUsuario = () => {
         const usuarioParaEnviar = {
@@ -24,51 +32,45 @@ export default function FormPageFunction() {
             .then((res) => res.json())
             .then((data) => {
                 console.log("Usuário adicionado:", data);
-                setDados([...dados, data]);
+                const novosDados = [...dados, data];
+                setDados(novosDados);
+                localStorage.setItem("usuarios", JSON.stringify(novosDados));
+                setNovoUsuario({ name: "", email: "" }); // limpa campos após envio
             })
             .catch((err) => console.error("Erro:", err));
     };
 
     return (
-
         <div>
-
-
             <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', gap: 5, background: "white" }}>
-
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" type="text"
+                <TextField
+                    label="Nome"
+                    variant="outlined"
+                    type="text"
                     value={novoUsuario.name}
                     onChange={(e) =>
                         setNovoUsuario({ ...novoUsuario, name: e.target.value })
                     }
-                    className="border p-2 mr-2"
-                    placeholder="Nome" />
+                    placeholder="Nome"
+                />
 
-
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" type="email"
+                <TextField
+                    label="Email"
+                    variant="outlined"
+                    type="email"
                     value={novoUsuario.email}
                     onChange={(e) =>
                         setNovoUsuario({ ...novoUsuario, email: e.target.value })
                     }
-                    className="border p-2 mr-2"
-                    placeholder="Email" />
-
+                    placeholder="Email"
+                />
 
                 <Button variant="contained" onClick={adicionarUsuario}>
                     Enviar
                 </Button>
 
-
-                <ul>
-                    {dados.map((user, index) => (
-                        <li key={index}>{user.name} - {user.email}</li>
-                    ))}
-                </ul>
-
-
+               
             </Box>
         </div>
-
-
     );
 }
