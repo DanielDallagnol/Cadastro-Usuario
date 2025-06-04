@@ -1,4 +1,4 @@
-import { Alert } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check"; // Importação que estava faltando
 import { useEffect, useState } from "react";
 
@@ -14,15 +14,29 @@ export default function VisualizarUsuarios() {
 
     return (
         <div>
-            <Alert icon={<CheckIcon fontSize="inherit" />} severity="info">
-                <ul style={{ margin: 0, paddingLeft: 20 }}>
+            <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', gap: 5, background: "white" }}>
+                <h1>Usuários Cadastrados</h1>
+
+
+                <Alert
+
+                    severity="info"
+                    sx={{
+                        textAlign: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: 1, // espaçamento entre os itens
+                    }}
+                >
                     {usuarios.map((user, index) => (
-                        <li key={index}>
+                        <div key={index}>
                             {user.name} - {user.email}
-                        </li>
+                        </div>
                     ))}
-                </ul>
-            </Alert>
+                </Alert>
+
+            </Box>
         </div>
     );
 }
